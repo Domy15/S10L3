@@ -2,21 +2,18 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert } from "bootstrap/dist/js/bootstrap.min";
 
-const TOKEN =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMDAxY2QyMjA3MTAwMTVkZTJmNTUiLCJpYXQiOjE3MzY5NTE1OTgsImV4cCI6MTczODE2MTE5OH0.CvmnzKh3LRWMNEcLb0mRW1vLGkHSOHCamVUJf6rUv5o";
-
 function MovieDetails() {
   const params = useParams();
-  const URL = `http://www.omdbapi.com/?apikey=ea139948&i=${params.movieID}`;
-  const URL2 = `https://striveschool-api.herokuapp.com/api/comments/${params.movieID}`;
+  const TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMDAxY2QyMjA3MTAwMTVkZTJmNTUiLCJpYXQiOjE3MzY5NTE1OTgsImV4cCI6MTczODE2MTE5OH0.CvmnzKh3LRWMNEcLb0mRW1vLGkHSOHCamVUJf6rUv5o";
+
 
   const [film, setFilm] = useState({});
   const [filmDetails, setFilmDetails] = useState([]);
-  const [loading, setLoading] = useState(true); // Aggiungi uno stato per gestire il caricamento
+  const [loading, setLoading] = useState(true);
 
   const getFilm = async () => {
     try {
-      const response = await fetch(URL);
+      const response = await fetch(`http://www.omdbapi.com/?apikey=ea139948&i=` + params.movieID);
       if (response.ok) {
         const data = await response.json();
         setFilm(data);
@@ -30,9 +27,9 @@ function MovieDetails() {
 
   const getFilmDetails = async () => {
     try {
-      const response = await fetch(URL2, {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/comments/` + params.movieID, {
         headers: {
-          Authorization: TOKEN,
+          "Authorization": TOKEN,
         },
       });
       if (response.ok) {
@@ -65,15 +62,15 @@ function MovieDetails() {
 
   return (
     <div className="row justify-content-center">
-      <div className="card text-white bg-dark col-6" style={{ width: "18rem" }}>
+      {film && <div className="card text-white bg-dark col-6" style={{ width: "18rem" }}>
         <img className="card-img-top" src={film.Poster} alt="Card image cap" />
         <div className="card-body">
           <h5 className="card-title">{film.Title}</h5>
           <p className="card-text">{film.Plot}</p>
         </div>
-      </div>
+      </div>}
 
-      {filmDetails ? (
+      {filmDetails.length > 0 ? (
         <div className="col-6">
           <h2 className="h1 text-white">Comments</h2>
           <ul>
@@ -86,7 +83,7 @@ function MovieDetails() {
         </div>
       ) : (
         <div className="col-6">
-          <Alert variant="info">There are no comments</Alert>
+          <li><Alert variant="info">There are no comments</Alert></li>
         </div>
       )}
     </div>
