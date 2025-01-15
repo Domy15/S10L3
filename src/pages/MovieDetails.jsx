@@ -75,6 +75,7 @@ function MovieDetails() {
 
       {filmDetails ? (
         <div className="col-6">
+          <h2 className="h1 text-white">Comments</h2>
           <ul>
             {filmDetails.map((film) => (
               <li className="text-white" key={film._id}>
