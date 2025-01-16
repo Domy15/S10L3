@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Alert } from "bootstrap/dist/js/bootstrap.min";
+import { Alert } from "react-bootstrap";
 
 function MovieDetails() {
   const params = useParams();
@@ -44,12 +44,12 @@ function MovieDetails() {
   };
 
   useEffect(() => {
-    setLoading(true); // Imposta il caricamento su true quando inizia il fetch
+    setLoading(true);
     getFilm();
     getFilmDetails();
   }, [params.movieID]);
 
-  // Dopo che i dati sono stati caricati, imposta loading su false
+  
   useEffect(() => {
     if (film && filmDetails) {
       setLoading(false);
@@ -57,7 +57,7 @@ function MovieDetails() {
   }, [film, filmDetails]);
 
   if (loading) {
-    return <div className="spinner-border text-secondary" role="status"></div>; // Mostra una schermata di caricamento fino al termine
+    return <div className="spinner-border text-secondary" role="status"></div>;
   }
 
   return (
@@ -70,7 +70,7 @@ function MovieDetails() {
         </div>
       </div>}
 
-      {filmDetails.length > 0 ? (
+      {filmDetails && filmDetails.length > 0 ? (
         <div className="col-6">
           <h2 className="h1 text-white">Comments</h2>
           <ul>
