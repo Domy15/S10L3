@@ -1,8 +1,9 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 
 function NavBar () {
   const navigate = useNavigate()
+  const location = useLocation()
 
     return (
         <nav
@@ -30,16 +31,16 @@ function NavBar () {
                 <a className="nav-link fw-bold" href="#">Home</a>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fw-bold" to={"/"}>TV Shows</Link>
+                <Link className={`nav-link fw-bold ${location.pathname === "/" ? "active" : ""}`} to={"/"}>TV Shows</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link fw-bold" href="#">Movies</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-bold" href="#" onClick={() => {navigate("/Settings")}}>Settings</a>
+                <a className={`nav-link fw-bold ${location.pathname === "/Settings" ? "active" : ""}`} href="#" onClick={() => {navigate("/Settings")}}>Settings</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-bold" href="#" onClick={() => {navigate("/Profile")}}>Profile</a>
+                <a className={`nav-link fw-bold ${location.pathname === "/Profile" ? "active" : ""}`} href="#" onClick={() => {navigate("/Profile")}}>Profile</a>
               </li>
             </ul>
             <div className="d-flex align-items-center">
